@@ -1,0 +1,9 @@
+openapi: 3.0.0
+info:
+  title: Payment Gateway API
+  version: v1
+  description: API for processing payments and managing merchants.
+
+# TODO: Define paths, components (schemas, responses, parameters, etc.)
+paths: {}
+components: {}
