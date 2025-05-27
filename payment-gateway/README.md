@@ -17,7 +17,7 @@ This project is a scalable and robust Payment Gateway API built with Go. It aims
 *   **Provider Agnostic:** Designed to easily integrate with multiple payment providers (e.g., Stripe, PayPal).
 *   **RESTful API:** Clean and well-documented API endpoints.
 *   **Security:** Focus on secure coding practices, PCI DSS compliance considerations (though full compliance is out of scope for this example).
-*   **Observability:** Logging, metrics, and tracing.
+*   **Observability:** Structured logging (via `log/slog` adapter), placeholder for distributed tracing (OpenTelemetry), and planned metrics.
 *   **Configuration Management:** Flexible configuration loading.
 
 ## Project Structure (Hexagonal Architecture)
@@ -43,13 +43,14 @@ payment-gateway/
 │   │   └── service/                 # Domain services (e.g., FraudDetectionService)
 │   ├── infrastructure/              # Adapters for external concerns
 │   │   ├── config/                  # Configuration loading implementation
+│   │   ├── logging/                 # Logging setup (e.g., slog adapter)
+│   │   ├── tracing/                 # Tracing setup (e.g., OpenTelemetry placeholder)
 │   │   ├── paymentprovider/         # Adapters for specific payment providers (Stripe, PayPal)
 │   │   │   ├── stripe/
 │   │   │   └── paypal/
 │   │   ├── persistence/             # Database adapters (e.g., PostgreSQL)
 │   │   │   └── postgres/
 │   │   ├── notification/            # Notification service adapters (e.g., email, SMS)
-│   │   └── logging/                 # Logging setup
 │   └── interfaces/                  # Adapters for inbound requests
 │       └── api/                     # HTTP API layer
 │           ├── dto/                 # Data Transfer Objects for API requests/responses
@@ -62,6 +63,17 @@ payment-gateway/
 ├── go.sum
 └── README.md
 ```
+
+## Code Examples / Implemented Stubs
+
+To better illustrate the interaction between components and the general flow of data, the following key methods have been implemented with more detailed (though still stubbed) logic:
+
+*   **`pkg/application/usecase/payment_usecase.go`**:
+    *   The `CreatePayment` method now demonstrates the orchestration of calls to the merchant repository, fraud detection service, payment repository (save initial state, update final state), and the payment processor. It includes example logging throughout the process.
+*   **`pkg/infrastructure/persistence/postgres/payment_postgres_repository.go`**:
+    *   The `Save` method includes an example of how a repository would interact with a logger and contains placeholders for actual database operations.
+
+These examples should provide a clearer picture of how the different layers and components are intended to work together.
 
 ## Getting Started
 
